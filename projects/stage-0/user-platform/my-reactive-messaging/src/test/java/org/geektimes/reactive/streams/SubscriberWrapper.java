@@ -39,6 +39,11 @@ public class SubscriberWrapper<T> implements Subscriber<T> {
         subscriber.onComplete();
     }
 
+    public boolean onNextCanceled(T t){
+        subscriber.onNext(t);
+        return subscription.isCanceled();
+    }
+
     public Subscriber<T> getSubscriber() {
         return subscriber;
     }

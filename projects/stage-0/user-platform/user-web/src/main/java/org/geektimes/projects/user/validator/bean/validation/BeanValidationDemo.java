@@ -12,7 +12,7 @@ public class BeanValidationDemo {
 
     public static void main(String[] args) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        // cache the factory somewhere
+        // org.geektimes.cache the factory somewhere
         Validator validator = factory.getValidator();
 
         User user = new User();

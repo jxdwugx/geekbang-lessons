@@ -8,7 +8,7 @@ import java.io.*;
  * @autor 吴光熙
  * @date 2021/4/12  20:32
  **/
-public class DefaultSerializer implements Serializer {
+public class ObjectSerializer implements Serializer<Object> {
 
 
     // 是否可以抽象出一套序列化和反序列化的 API

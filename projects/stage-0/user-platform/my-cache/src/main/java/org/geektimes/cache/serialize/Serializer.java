@@ -5,9 +5,9 @@ package org.geektimes.cache.serialize;
  * @autor 吴光熙
  * @date 2021/4/12  20:28
  **/
-public interface Serializer {
+public interface Serializer<T> {
 
-    byte[] serialize(Object v);
+    byte[] serialize(T t);
 
-    Object deserialize(byte[] bytes);
+    T deserialize(byte[] bytes);
 }

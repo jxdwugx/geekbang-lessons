@@ -15,42 +15,46 @@ public class JedisCache<K extends Serializable, V extends Serializable> extends 
 
     private final Jedis jedis;
 
-    private final Serializer serializer;
+    private final Serializer<K> keySerializer;
+    private final Serializer<V> valueSerializer;
+
 
     public JedisCache(CacheManager cacheManager, String cacheName,
-                      Configuration<K, V> configuration, Jedis jedis, Serializer serializer) {
+                      Configuration<K, V> configuration, Jedis jedis, Serializer<K> keySerializer,
+                      Serializer<V> valueSerializer) {
         super(cacheManager, cacheName, configuration);
         this.jedis = jedis;
-        this.serializer = serializer;
+        this.keySerializer = keySerializer;
+        this.valueSerializer = valueSerializer;
     }
 
     @Override
     protected boolean containsEntry(K key) throws CacheException, ClassCastException {
-        byte[] keyBytes = serializer.serialize(key);
+        byte[] keyBytes = keySerializer.serialize(key);
         return jedis.exists(keyBytes);
     }
 
     @Override
     protected ExpirableEntry<K, V> getEntry(K key) throws CacheException, ClassCastException {
-        byte[] keyBytes = serializer.serialize(key);
+        byte[] keyBytes = keySerializer.serialize(key);
         return getEntry(keyBytes);
     }
 
     protected ExpirableEntry<K, V> getEntry(byte[] keyBytes) throws CacheException, ClassCastException {
         byte[] valueBytes = jedis.get(keyBytes);
-        return ExpirableEntry.of((K)serializer.deserialize(keyBytes), (V)serializer.deserialize(valueBytes));
+        return ExpirableEntry.of(keySerializer.deserialize(keyBytes), valueSerializer.deserialize(valueBytes));
     }
 
     @Override
     protected void putEntry(ExpirableEntry<K, V> entry) throws CacheException, ClassCastException {
-        byte[] keyBytes = serializer.serialize(entry.getKey());
-        byte[] valueBytes = serializer.serialize(entry.getValue());
+        byte[] keyBytes = keySerializer.serialize(entry.getKey());
+        byte[] valueBytes = valueSerializer.serialize(entry.getValue());
         jedis.set(keyBytes, valueBytes);
     }
 
     @Override
     protected ExpirableEntry<K, V> removeEntry(K key) throws CacheException, ClassCastException {
-        byte[] keyBytes = serializer.serialize(key);
+        byte[] keyBytes = keySerializer.serialize(key);
         ExpirableEntry<K, V> oldEntry = getEntry(keyBytes);
         jedis.del(keyBytes);
         return oldEntry;

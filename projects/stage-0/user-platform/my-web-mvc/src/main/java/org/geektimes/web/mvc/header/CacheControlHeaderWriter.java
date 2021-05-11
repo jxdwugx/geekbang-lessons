@@ -8,6 +8,6 @@ public class CacheControlHeaderWriter implements HeaderWriter {
 
     @Override
     public void write(Map<String, List<String>> headers, String... headerValues) {
-        headers.put("org.geektimes.cache-control", Arrays.asList(headerValues));
+        headers.put("cache-control", Arrays.asList(headerValues));
     }
 }

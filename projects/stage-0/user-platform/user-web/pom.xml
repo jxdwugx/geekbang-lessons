@@ -16,9 +16,46 @@
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-jms</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.geekbang.projects</groupId>
             <artifactId>my-web-mvc</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.geekbang.projects</groupId>
+            <artifactId>my-session</artifactId>
             <version>${revision}</version>
         </dependency>
 
@@ -31,6 +68,12 @@
         <dependency>
             <groupId>org.geekbang.projects</groupId>
             <artifactId>my-dependency-injection</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.geekbang.projects</groupId>
+            <artifactId>my-cache</artifactId>
             <version>${revision}</version>
         </dependency>
 
@@ -54,6 +97,11 @@
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
         </dependency>
 
         <dependency>
@@ -90,11 +138,43 @@
             <artifactId>activemq-all</artifactId>
         </dependency>
 
+        <!-- MyBatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+        </dependency>
+
+        <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Runtime Dependencies -->
+
+        <!-- Apache Tomcat -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-catalina-ha</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-dbcp</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
     </dependencies>
@@ -126,6 +206,9 @@
                                     <!-- ServletContext 路径 -->
                                     <path>/</path>
                                     <enableNaming>true</enableNaming>
+                                    <tomcatConfigurationFilesDirectory>
+                                        src/main/webapp/META-INF/conf/
+                                    </tomcatConfigurationFilesDirectory>
                                 </configuration>
                             </execution>
                         </executions>

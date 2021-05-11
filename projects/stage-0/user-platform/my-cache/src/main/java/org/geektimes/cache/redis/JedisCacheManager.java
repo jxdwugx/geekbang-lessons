@@ -1,7 +1,6 @@
 package org.geektimes.cache.redis;
 
 import org.geektimes.cache.AbstractCacheManager;
-import org.geektimes.cache.serialize.ObjectSerializer;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -26,7 +25,7 @@ public class JedisCacheManager extends AbstractCacheManager {
     @Override
     protected <K, V, C extends Configuration<K, V>> Cache doCreateCache(String cacheName, C configuration) {
         Jedis jedis = jedisPool.getResource();
-        return new JedisCache(this, cacheName, configuration, jedis, new ObjectSerializer(), new ObjectSerializer());
+        return new JedisCache(this, cacheName, configuration, jedis);
     }
 
     @Override

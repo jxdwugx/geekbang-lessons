@@ -22,25 +22,34 @@ public class DefaultPublisher<T> implements Publisher<T> {
         // 广播
         subscribers.forEach(subscriber -> {
 
+            SubscriberWrapper subscriberWrapper = (SubscriberWrapper) subscriber;
 //                    SubscriberWrapper.class.cast(subscriber);
 
-            // 继续发送
-            boolean flag = subscriber.onNextCanceled(data);
+            DefaultSubscription subscription = subscriberWrapper.getSubscription();
 
-            if(flag){
+            // 判断当前 subscriber 是否 cancel 数据发送
+            if (subscription.isCanceled()) {
                 System.err.println("本次数据发布已忽略，数据为：" + data);
+                return;
             }
+
+            // 继续发送
+            subscriber.onNext(data);
         });
     }
 
     public void error(Throwable error) {
         // 广播
-        subscribers.forEach(subscriber -> subscriber.onError(error));
+        subscribers.forEach(subscriber -> {
+            subscriber.onError(error);
+        });
     }
 
     public void complete() {
         // 广播
-        subscribers.forEach(SubscriberWrapper::onComplete);
+        subscribers.forEach(subscriber -> {
+            subscriber.onComplete();
+        });
     }
 
     public static void main(String[] args) {
